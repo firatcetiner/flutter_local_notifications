@@ -505,7 +505,8 @@ public class FlutterLocalNotificationsPlugin implements MethodCallHandler, Plugi
                 icon = IconCompat.createWithResource(context, getDrawableResourceId(context, iconPath));
                 break;
             case BitmapFilePath:
-                icon = IconCompat.createWithBitmap(BitmapFactory.decodeFile(iconPath));
+                Bitmap bitmapIcon = getCircleBitmap(BitmapFactory.decodeFile(iconPath));
+                icon = IconCompat.createWithBitmap(bitmapIcon);
                 break;
             case ContentUri:
                 icon = IconCompat.createWithContentUri(iconPath);
@@ -514,7 +515,8 @@ public class FlutterLocalNotificationsPlugin implements MethodCallHandler, Plugi
                 try {
                     AssetFileDescriptor assetFileDescriptor = context.getAssets().openFd(FlutterMain.getLookupKeyForAsset(iconPath));
                     FileInputStream fileInputStream = assetFileDescriptor.createInputStream();
-                    icon = IconCompat.createWithBitmap(BitmapFactory.decodeStream(fileInputStream));
+                    bitmapIcon = getCircleBitmap(BitmapFactory.decodeStream(fileInputStream));
+                    icon = IconCompat.createWithBitmap(bitmapIcon);
                     fileInputStream.close();
                     assetFileDescriptor.close();
                 } catch (IOException e) {
