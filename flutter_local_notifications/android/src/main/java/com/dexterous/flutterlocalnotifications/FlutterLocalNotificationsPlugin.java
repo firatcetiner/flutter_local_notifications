@@ -534,6 +534,26 @@ public class FlutterLocalNotificationsPlugin implements MethodCallHandler, Plugi
         return icon;
     }
 
+        /**
+     * Creates a new Bitmap of the original by painting a circle shape on the canvas.
+     */
+    private static Bitmap getCircleBitmap(@NonNull Bitmap sourceBitmap) {
+        Bitmap output = Bitmap.createBitmap(sourceBitmap.getWidth(), sourceBitmap.getHeight(), Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(output);
+        final Paint paint = new Paint();
+        final Rect rect = new Rect(0, 0, sourceBitmap.getWidth(), sourceBitmap.getHeight());
+
+        paint.setAntiAlias(true);
+        canvas.drawARGB(0, 0, 0, 0);
+        canvas.drawCircle(sourceBitmap.getWidth() >> 1, sourceBitmap.getHeight() >> 1, sourceBitmap.getWidth() >> 1, paint);
+        paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
+        canvas.drawBitmap(sourceBitmap, rect, rect, paint);
+
+        sourceBitmap.recycle();
+
+        return output;
+    }
+
     /**
      * Sets the visibility property to the input Notification Builder
      *
